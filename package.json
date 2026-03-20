@@ -1,6 +1,8 @@
 {
   "name": "regex-ai",
   "displayName": "RegexAI - Generate Regex from Text",
+  "publisher": "VineetNambiar",
+  "icon": "icon.png",
   "description": "Highlight text, right click, and generate a regex pattern using AI",
   "version": "0.0.1",
   "engines": {

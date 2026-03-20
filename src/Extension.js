@@ -192,9 +192,9 @@ function showResultPanel(context, result, selectedText) {
     <span class="flags">${escapeHtml(result.flags)}</span>
   </div>
   <div class="copy-row">
-    <button onclick="copy('${escapeJs(result.pattern)}')">Copy Pattern</button>
-    <button onclick="copy('/${escapeJs(result.pattern)}/${escapeJs(result.flags)}')">Copy /pattern/flags</button>
-    <button class="insert-btn" onclick="insert()">Insert into Editor</button>
+    <button id="btnCopyPattern">Copy Pattern</button>
+    <button id="btnCopyFull">Copy /pattern/flags</button>
+    <button id="btnInsert" class="insert-btn">Insert into Editor</button>
   </div>
 
   <div class="explanation">${escapeHtml(result.explanation)}</div>
@@ -217,12 +217,26 @@ function showResultPanel(context, result, selectedText) {
 
   <script>
     const vscode = acquireVsCodeApi();
-    function copy(text) {
-      navigator.clipboard.writeText(text);
-    }
-    function insert() {
-      vscode.postMessage({ command: 'insert', pattern: document.getElementById('patternText').textContent, flags: '${escapeJs(result.flags)}' });
-    }
+    const PATTERN = ${JSON.stringify(result.pattern)};
+    const FLAGS = ${JSON.stringify(result.flags)};
+
+    document.getElementById('btnCopyPattern').addEventListener('click', () => {
+      navigator.clipboard.writeText(PATTERN);
+      const btn = document.getElementById('btnCopyPattern');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy Pattern', 1500);
+    });
+
+    document.getElementById('btnCopyFull').addEventListener('click', () => {
+      navigator.clipboard.writeText('/' + PATTERN + '/' + FLAGS);
+      const btn = document.getElementById('btnCopyFull');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy /pattern/flags', 1500);
+    });
+
+    document.getElementById('btnInsert').addEventListener('click', () => {
+      vscode.postMessage({ command: 'insert', pattern: PATTERN, flags: FLAGS });
+    });
   </script>
 </body>
 </html>`;
