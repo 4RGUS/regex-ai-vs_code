@@ -1,0 +1,76 @@
+{
+  "name": "regex-ai",
+  "displayName": "RegexAI - Generate Regex from Text",
+  "description": "Highlight text, right click, and generate a regex pattern using AI",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "regex",
+    "ai",
+    "gemini",
+    "groq",
+    "openai",
+    "developer tools"
+  ],
+  "activationEvents": [],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "regexai.generate",
+        "title": "RegexAI: Generate Regex from Description"
+      },
+      {
+        "command": "regexai.explain",
+        "title": "RegexAI: Explain Selected Regex"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "regexai.generate",
+          "when": "editorHasSelection",
+          "group": "regexai@1"
+        },
+        {
+          "command": "regexai.explain",
+          "when": "editorHasSelection",
+          "group": "regexai@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "RegexAI",
+      "properties": {
+        "regexai.provider": {
+          "type": "string",
+          "default": "gemini",
+          "enum": [
+            "gemini",
+            "groq",
+            "openai"
+          ],
+          "enumDescriptions": [
+            "Google Gemini 2.5 Flash (Free - 1500 req/day)",
+            "Groq Llama 3 (Free - 14400 req/day, fastest)",
+            "OpenAI GPT-4o mini (Paid)"
+          ],
+          "description": "AI provider to use for regex generation"
+        },
+        "regexai.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your API key for the selected provider"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
